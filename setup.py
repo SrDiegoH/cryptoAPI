@@ -9,7 +9,7 @@ setup(
     packages=find_packages(where='.', exclude=(), include=('*',)),
     classifiers=[ 'Python' ],
     install_requires=['flask', 'pycryptodome'],
-    python_requires='3.9.9',
+    python_requires='>=3.10.1',
     include_package_data=True,
     install_package_data=True,
 )

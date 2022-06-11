@@ -11,7 +11,8 @@ def root():
     key = 'TEST_KEY'
     text = 'Working'
     text_encrypted = encrypt(text, key)
-    return decrypt(text_encrypted, key)
+
+    return text_encrypted #decrypt(text_encrypted, key)
 
 @app.route('/encrypt', methods=['POST'])
 def encrypt():

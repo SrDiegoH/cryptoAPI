@@ -8,13 +8,19 @@ app = Flask(__name__)
 
 @app.route('/')
 def root():
-    return 'Working'
+    key = 'TEST_KEY'
+    text = 'Working'
+    text_encrypted = encrypt(text, key)
+    return decrypt(text_encrypted, key)
 
 @app.route('/encrypt', methods=['POST'])
 def encrypt():
     text = request.values.get('text').encode("UTF-8")
     password = request.values.get('key').encode("UTF-8")
 
+    return encrypt(text, password)
+
+def encrypt(text, password):
     key = SHA256.new(password).digest()
     IV = Random.new().read(AES.block_size)
 
@@ -32,6 +38,7 @@ def decrypt():
     text = request.values.get('text').encode("UTF-8")
     password = request.values.get('key').encode("UTF-8")
 
+def decrypt(text, password):
     source = base64.b64decode(text)
     key = SHA256.new(password).digest()
     IV = source[:AES.block_size]

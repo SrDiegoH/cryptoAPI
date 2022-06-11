@@ -1,9 +1,7 @@
 import base64
-
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from Crypto import Random
-
 from flask import Flask, request
 
 app = Flask(__name__)

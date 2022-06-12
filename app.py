@@ -1,25 +1,40 @@
 import base64
+
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from Crypto import Random
-from flask import Flask, request
+
+from flask import request, Flask, jsonify
+
+import json
 
 app = Flask(__name__)
 
 @app.route('/')
 def root():
-    key = 'TEST_KEY'
-    text = 'Working'
+    key = 'TEST_KEY'.encode("UTF-8")
+    text = 'Working'.encode("UTF-8")
     text_encrypted = encrypt(text, key)
 
-    return text_encrypted #decrypt(text_encrypted, key)
+    return decrypt(text_encrypted, key)
 
 @app.route('/encrypt', methods=['POST'])
 def encrypt():
-    text = request.values.get('text').encode("UTF-8")
-    password = request.values.get('key').encode("UTF-8")
+    content = json.loads(request.data)
+
+    text = content.get('text').encode("UTF-8")
+    password = content.get('key').encode("UTF-8")
 
     return encrypt(text, password)
+
+@app.route('/decrypt', methods=['POST'])
+def decrypt():
+    content = json.loads(request.data)
+
+    text = content.get('text').encode("UTF-8")
+    password = content.get('key').encode("UTF-8")
+
+    return decrypt(text, password)
 
 def encrypt(text, password):
     key = SHA256.new(password).digest()
@@ -33,11 +48,6 @@ def encrypt(text, password):
     data = IV + encryptor.encrypt(text)
 
     return base64.b64encode(data).decode("UTF-8")
-
-@app.route('/decrypt', methods=['POST'])
-def decrypt():
-    text = request.values.get('text').encode("UTF-8")
-    password = request.values.get('key').encode("UTF-8")
 
 def decrypt(text, password):
     source = base64.b64decode(text)

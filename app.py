@@ -20,15 +20,15 @@ def root():
 
 @app.route('/encrypt', methods=['POST'])
 def encrypt():
-    text = request.form.get('text').encode("UTF-8")
-    password = request.form.get('key').encode("UTF-8")
+    text = request.values.get('text').encode("UTF-8")
+    password = request.values.get('key').encode("UTF-8")
 
     return encrypt(text, password)
 
 @app.route('/decrypt', methods=['POST'])
 def decrypt():
-    text = request.form.get('text').encode("UTF-8")
-    password = request.form.get('key').encode("UTF-8")
+    text = request.values.get('text').encode("UTF-8")
+    password = request.values.get('key').encode("UTF-8")
 
     return decrypt(text, password)
 

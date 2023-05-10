@@ -4,9 +4,7 @@ from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from Crypto import Random
 
-from flask import request, Flask, jsonify
-
-import json
+from flask import request, Flask
 
 app = Flask(__name__)
 
